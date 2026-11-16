@@ -57,29 +57,34 @@ class BookOrderManagerTest {
 
     @Test
     void testAddNullBookThrowsException() {
-        // TODO (Homework): Implement test to verify that adding a null book throws IllegalArgumentException.
-        // Ensure branch coverage covers null validation in addBookToInventory.
-        fail("Homework pending: implement testAddNullBookThrowsException");
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            manager.addBookToInventory(null);
+        });
+        assertEquals("Book cannot be null.", exception.getMessage());
     }
 
     @Test
     void testSetInvalidDiscountRateThrowsException() {
-        // TODO (Homework): Test boundary values for discount rate (< 0.0 and > 1.0)
-        // to reach 99% branch coverage on setDiscountRate.
-        fail("Homework pending: implement testSetInvalidDiscountRateThrowsException");
+        assertThrows(IllegalArgumentException.class, () -> {
+            manager.setDiscountRate(-0.1);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            manager.setDiscountRate(1.1);
+        });
     }
 
     @Test
     void testCalculateOrderTotalInsufficientStock() {
-        // TODO (Homework): Test when requested quantity exceeds available stock,
-        // ensuring IllegalStateException is thrown.
-        fail("Homework pending: implement testCalculateOrderTotalInsufficientStock");
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            manager.calculateOrderTotal("Java Programming", 11);
+        });
+        assertEquals("Insufficient stock available.", exception.getMessage());
     }
 
     @Test
     void testProcessCheckoutSuccessAndStockReduction() {
-        // TODO (Homework): Test processCheckout with valid inputs and verify
-        // that the inventory stock is correctly reduced and boolean true is returned.
-        fail("Homework pending: implement testProcessCheckoutSuccessAndStockReduction");
+        boolean result = manager.processCheckout("Java Programming", 3, false);
+        assertTrue(result);
+        assertEquals(7, sampleBook.getStock());
     }
 }
